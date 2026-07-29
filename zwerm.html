@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Zwerm gezien? — Imkerij Streunding</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">Imkerij Streunding</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">Over ons</a>
+        <a href="apiary.html">Bijenkast / Colonie</a>
+        <a href="zwerm.html">Zwerm gezien?</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <h2>Zwerm gezien?</h2>
+      <p>Vertel ons waar de zwerm zich bevindt en wij zorgen voor snelle opvang.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <img src="images/zwerm.jpg" alt="Zwerm bijen" class="zwerm-image" onerror="this.style.display='none';document.getElementById('zwerm-fallback').style.display='block';">
+    <div id="zwerm-fallback" class="image-placeholder" style="display:none;">
+      <p>Upload een foto van de zwerm naar <code>images/zwerm.jpg</code>.</p>
+      <small>Als het nog niet zichtbaar is, controleer dan de bestandsnaam en map.</small>
+    </div>
+    <p>Als u een zwerm bijen ziet, vul hieronder het formulier in. We pakken zwermen op en brengen ze terug naar onze bijenkasten.</p>
+
+    <form action="contact.php" method="post">
+      <input type="hidden" name="subject" value="Zwermmelding">
+      <label>Naam<br><input type="text" name="name" required></label>
+      <label>Email<br><input type="email" name="email"></label>
+      <label>Telefoon<br><input type="text" name="phone"></label>
+      <label>Locatie (adres of beschrijving)<br><input type="text" name="location" required></label>
+      <label>Datum/tijd gezien<br><input type="text" name="datetime"></label>
+      <label>Extra info<br><textarea name="message" rows="4"></textarea></label>
+      <p><button type="submit" class="btn">Melding verzenden</button></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Mail: <a href="mailto:info@streunding.nl">info@streunding.nl</a></p>
+      <p>&copy; Imkerij Streunding</p>
+    </div>
+  </footer>
+</body>
+</html>

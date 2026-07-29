@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Demo standplaats 1",
+    "city": "Streunding",
+    "type": "apiary",
+    "has_power": false,
+    "has_water": true,
+    "stand_fee": 0,
+    "notes": "Deze gegevens worden getoond als er nog geen databaseverbinding beschikbaar is."
+  },
+  {
+    "name": "Demo standplaats 2",
+    "city": "Middelburg",
+    "type": "garden",
+    "has_power": true,
+    "has_water": true,
+    "stand_fee": 25,
+    "notes": "Voorbeelddata ter illustratie."
+  }
+]
