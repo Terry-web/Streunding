@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost, getPostSlugs, getPosts } from "@/lib/posts";
+import ReadingProgress from "@/components/ReadingProgress";
 
 export function generateStaticParams() {
   return getPostSlugs().map((slug) => ({ slug }));
@@ -26,6 +27,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="min-h-screen bg-amber-50 text-stone-800">
+      <ReadingProgress />
 
       {/* Hero */}
       <section className="relative pt-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-900 via-orange-900 to-stone-900">

@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPosts } from "@/lib/posts";
+import BlogList from "@/components/BlogList";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Eerlijke verhalen uit de bijenstal — van kasten timmeren tot het eerste brouwsel.",
-};
-
-const tagKleur: Record<string, string> = {
-  Verhaal: "bg-amber-100 text-amber-800",
-  Ambacht: "bg-orange-100 text-orange-800",
-  Recept: "bg-yellow-100 text-yellow-800",
 };
 
 export default function Blog() {
@@ -48,13 +43,13 @@ export default function Blog() {
 
       {/* Uitgelicht */}
       {nieuwste && (
-        <section className="max-w-5xl mx-auto px-6 py-16">
+        <section className="max-w-5xl mx-auto px-6 py-16 reveal">
           <p className="text-amber-700 font-semibold uppercase tracking-widest text-sm mb-6">Nieuwste bericht</p>
           <Link href={`/blog/${nieuwste.slug}`} className="group block bg-white rounded-3xl shadow-lg border border-amber-100 overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-1">
             <div className="bg-gradient-to-r from-amber-800 to-orange-800 p-10 flex items-center gap-6">
               <span className="text-6xl">{nieuwste.icon}</span>
               <div>
-                <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 inline-block ${tagKleur[nieuwste.tag] ?? "bg-stone-100 text-stone-700"}`}>
+                <span className="bg-amber-400 text-amber-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 inline-block">
                   {nieuwste.tag}
                 </span>
                 <h2 className="text-2xl md:text-3xl font-black text-white group-hover:text-amber-300 transition-colors leading-tight">
@@ -71,33 +66,7 @@ export default function Blog() {
         </section>
       )}
 
-      {/* Alle berichten */}
-      <section className="bg-stone-100 py-20">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="text-amber-700 font-semibold uppercase tracking-widest text-sm mb-2">Archief</p>
-          <h2 className="text-4xl font-black mb-12 text-stone-900">Alle berichten</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[...posts].reverse().map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}
-                className="group bg-white rounded-2xl shadow border border-stone-100 p-7 hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col gap-4"
-              >
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl">{post.icon}</span>
-                  <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${tagKleur[post.tag] ?? "bg-stone-100 text-stone-700"}`}>
-                    {post.tag}
-                  </span>
-                </div>
-                <h3 className="text-lg font-black text-stone-900 group-hover:text-amber-700 transition-colors leading-snug">{post.titel}</h3>
-                <p className="text-stone-500 text-sm leading-7 flex-1">{post.samenvatting}</p>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-stone-400">{post.datum}</span>
-                  <span className="text-amber-600 text-sm font-semibold group-hover:text-amber-800 transition-colors">Lees meer →</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <BlogList posts={posts} />
 
     </div>
   );

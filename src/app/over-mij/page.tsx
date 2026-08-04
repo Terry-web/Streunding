@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Over mij",
@@ -152,13 +153,8 @@ export default function OverMij() {
             <h3 className="text-2xl font-black mb-2">Stuur een e-mail</h3>
             <p className="text-amber-200 text-sm">Ik reageer zo snel mogelijk</p>
           </div>
-          <div className="p-8 text-center">
-            <a
-              href="mailto:terry@streunding.nl"
-              className="inline-flex items-center gap-3 bg-amber-400 text-amber-900 font-bold px-8 py-4 rounded-full hover:bg-amber-300 transition-all hover:scale-105 shadow text-lg"
-            >
-              📧 terry@streunding.nl
-            </a>
+          <div className="p-8">
+            <ContactForm />
           </div>
         </div>
       </section>

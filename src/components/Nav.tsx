@@ -9,6 +9,8 @@ const links = [
   { href: "/blog", label: "Blog" },
   { href: "/informatief", label: "Informatief" },
   { href: "/kasten", label: "Kasten" },
+  { href: "/recepten", label: "Recepten" },
+  { href: "/honing", label: "Honing" },
   { href: "/over-mij", label: "Over mij" },
 ];
 
