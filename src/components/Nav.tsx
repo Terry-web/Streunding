@@ -8,6 +8,8 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
   { href: "/informatief", label: "Informatief" },
+  { href: "/kalender", label: "Kalender" },
+  { href: "/dagboek", label: "Dagboek" },
   { href: "/kasten", label: "Kasten" },
   { href: "/recepten", label: "Recepten" },
   { href: "/honing", label: "Honing" },

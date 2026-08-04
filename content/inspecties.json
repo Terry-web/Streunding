@@ -1,0 +1,21 @@
+{
+  "kasten": [
+    {
+      "id": "kast-1",
+      "naam": "Kast 1",
+      "type": "Simplex",
+      "kleur": "Wit",
+      "locatie": "Achtertuin",
+      "gebouwd": "2025"
+    },
+    {
+      "id": "kast-2",
+      "naam": "Kast 2",
+      "type": "Simplex",
+      "kleur": "Geel",
+      "locatie": "Achtertuin",
+      "gebouwd": "2025"
+    }
+  ],
+  "inspecties": []
+}
