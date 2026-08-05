@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 
 const endpoints = [
-  { label: "Lokaal netwerk", url: "http://192.168.1.117:3000/api/ping" },
-  { label: "mc.streunding.nl", url: "http://mc.streunding.nl:3000/api/ping" },
+  { label: "Lokaal netwerk", url: "http://192.168.1.117:8000/rest/v1/" },
+  { label: "mc.streunding.nl", url: "http://mc.streunding.nl:8000/rest/v1/" },
 ];
 
 type Status = "checking" | "online" | "offline";
@@ -28,14 +28,14 @@ export default function AdminClient() {
       endpoints.map(async (e, i) => {
         const start = Date.now();
         try {
-          const res = await fetch(e.url, {
+          await fetch(e.url, {
             signal: AbortSignal.timeout(4000),
             cache: "no-store",
+            mode: "no-cors",
           });
-          const data = await res.json();
           setResults((r) => {
             const updated = [...r];
-            updated[i] = { ...e, status: data.ok ? "online" : "offline", latency: Date.now() - start };
+            updated[i] = { ...e, status: "online", latency: Date.now() - start };
             return updated;
           });
         } catch {
@@ -124,7 +124,7 @@ export default function AdminClient() {
       </div>
 
       <p className="text-stone-600 text-xs mt-3">
-        ℹ️ Check loopt vanuit jouw browser — groen betekent dat jíj de server kunt bereiken.
+        ℹ️ Check loopt vanuit jouw browser — groen betekent dat jíj de Supabase-instantie kunt bereiken.
         Auto-refresh elke 30 seconden.
       </p>
     </section>
