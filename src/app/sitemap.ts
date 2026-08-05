@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPostSlugs } from "@/lib/posts";
 
-export const dynamic = "force-static";
-
 const base = "https://streunding.nl";
 
 export default function sitemap(): MetadataRoute.Sitemap {
