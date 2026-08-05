@@ -5,31 +5,24 @@ const endpoints = [
   { label: "Supabase API (extern)", url: "http://mc.streunding.nl:8000/rest/v1/" },
 ];
 
-export async function GET() {
-  const results = await Promise.all(
-    endpoints.map(async (e) => {
-      const start = Date.now();
-      try {
-        const res = await fetch(e.url, {
-          signal: AbortSignal.timeout(4000),
-          cache: "no-store",
-        });
-        return {
-          label: e.label,
-          url: e.url,
-          online: res.status > 0,
-          latency: Date.now() - start,
-        };
-      } catch {
-        return {
-          label: e.label,
-          url: e.url,
-          online: false,
-          latency: null,
-        };
-      }
-    })
-  );
+async function checkEndpoint(e: { label: string; url: string }) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  const start = Date.now();
+  try {
+    const res = await fetch(e.url, {
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    clearTimeout(timer);
+    return { label: e.label, url: e.url, online: res.status > 0, latency: Date.now() - start };
+  } catch {
+    clearTimeout(timer);
+    return { label: e.label, url: e.url, online: false, latency: null };
+  }
+}
 
+export async function GET() {
+  const results = await Promise.all(endpoints.map(checkEndpoint));
   return NextResponse.json({ results, checkedAt: new Date().toISOString() });
 }
