@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 
 const endpoints = [
-  { label: "Lokaal netwerk", url: "http://192.168.1.117:8000/rest/v1/" },
-  { label: "mc.streunding.nl", url: "http://mc.streunding.nl:8000/rest/v1/" },
+  { label: "Supabase Studio (lokaal)", url: "http://192.168.1.117:3000" },
+  { label: "Supabase Studio (extern)", url: "http://mc.streunding.nl:3000" },
 ];
 
 type Status = "checking" | "online" | "offline";
