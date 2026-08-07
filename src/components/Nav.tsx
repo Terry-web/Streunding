@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { signOut } from "@/app/login/actions";
 
 const links = [
   { href: "/", label: "Home" },
@@ -16,7 +17,7 @@ const links = [
   { href: "/over-mij", label: "Over mij" },
 ];
 
-export default function Nav() {
+export default function Nav({ userEmail }: { userEmail: string | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -28,7 +29,7 @@ export default function Nav() {
         </Link>
 
         {/* Desktop */}
-        <ul className="hidden md:flex gap-8 text-sm font-medium">
+        <ul className="hidden md:flex gap-8 text-sm font-medium items-center">
           {links.map((l) => (
             <li key={l.href}>
               <Link
@@ -39,6 +40,19 @@ export default function Nav() {
               </Link>
             </li>
           ))}
+          <li>
+            {userEmail ? (
+              <form action={signOut}>
+                <button type="submit" className="hover:text-amber-300 transition-colors">
+                  Uitloggen
+                </button>
+              </form>
+            ) : (
+              <Link href="/login" className="hover:text-amber-300 transition-colors">
+                Inloggen
+              </Link>
+            )}
+          </li>
         </ul>
 
         {/* Hamburger */}
@@ -68,6 +82,27 @@ export default function Nav() {
                 </Link>
               </li>
             ))}
+            <li>
+              {userEmail ? (
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    onClick={() => setOpen(false)}
+                    className="text-amber-100 hover:text-amber-300 transition-colors"
+                  >
+                    Uitloggen
+                  </button>
+                </form>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="text-amber-100 hover:text-amber-300 transition-colors"
+                >
+                  Inloggen
+                </Link>
+              )}
+            </li>
           </ul>
         </div>
       )}
