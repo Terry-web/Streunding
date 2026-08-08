@@ -21,6 +21,8 @@ export default function Nav({ userEmail }: { userEmail: string | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  const navLinks = userEmail ? [...links, { href: "/beheer", label: "Beheer" }] : links;
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-amber-900/95 backdrop-blur-sm text-amber-50 shadow-lg">
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
@@ -30,7 +32,7 @@ export default function Nav({ userEmail }: { userEmail: string | null }) {
 
         {/* Desktop */}
         <ul className="hidden md:flex gap-8 text-sm font-medium items-center">
-          {links.map((l) => (
+          {navLinks.map((l) => (
             <li key={l.href}>
               <Link
                 href={l.href}
@@ -71,7 +73,7 @@ export default function Nav({ userEmail }: { userEmail: string | null }) {
       {open && (
         <div className="md:hidden bg-amber-950 border-t border-amber-800 px-6 py-4">
           <ul className="flex flex-col gap-4 text-sm font-medium">
-            {links.map((l) => (
+            {navLinks.map((l) => (
               <li key={l.href}>
                 <Link
                   href={l.href}
