@@ -12,8 +12,8 @@ const links = [
   { href: "/kalender", label: "Kalender" },
   { href: "/dagboek", label: "Dagboek" },
   { href: "/kasten", label: "Kasten" },
-  { href: "/recepten", label: "Recepten" },
   { href: "/honing", label: "Honing" },
+  { href: "/bestuiving", label: "Bestuiving" },
   { href: "/over-mij", label: "Over mij" },
 ];
 

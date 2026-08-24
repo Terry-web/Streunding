@@ -4,19 +4,15 @@ import DeleteButton from "@/components/DeleteButton";
 import PhotoUploadForm from "./PhotoUploadForm";
 import { uploadPhoto, deletePhoto } from "./actions";
 
-type ParentColumn = "apiary_id" | "hive_id" | "colony_id";
-
 export default async function PhotoGallery({
-  column,
-  parentId,
+  colonyId,
   redirectTo,
 }: {
-  column: ParentColumn;
-  parentId: string;
+  colonyId: string;
   redirectTo: string;
 }) {
   const supabase = await createClient();
-  const photos = await getSignedPhotos(supabase, column, parentId);
+  const photos = await getSignedPhotos(supabase, colonyId);
 
   return (
     <div>
@@ -51,7 +47,7 @@ export default async function PhotoGallery({
         </div>
       )}
 
-      <PhotoUploadForm action={uploadPhoto.bind(null, { column, id: parentId }, redirectTo)} />
+      <PhotoUploadForm action={uploadPhoto.bind(null, colonyId, redirectTo)} />
     </div>
   );
 }

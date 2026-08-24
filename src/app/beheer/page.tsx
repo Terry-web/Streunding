@@ -1,38 +1,20 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import DashboardStatsGrid, { type DashboardStats } from "./DashboardStatsGrid";
 
 export const metadata = { title: "Beheer | Streunding" };
 
 export default async function BeheerPage() {
   const supabase = await createClient();
+  const { data: stats, error } = await supabase.rpc("get_dashboard_stats");
 
-  const [{ count: apiaryCount }, { count: hiveCount }, { count: colonyCount }] = await Promise.all([
-    supabase.from("apiaries").select("*", { count: "exact", head: true }),
-    supabase.from("hives").select("*", { count: "exact", head: true }),
-    supabase.from("colonies").select("*", { count: "exact", head: true }),
-  ]);
+  if (error || !stats) {
+    return (
+      <div className="bg-stone-800 rounded-2xl p-5 border border-stone-700 text-stone-400 text-sm">
+        Kon dashboardstatistieken niet laden.
+        {error && <p className="mt-1 text-stone-500">{error.message}</p>}
+      </div>
+    );
+  }
 
-  const stats = [
-    { label: "Standplaatsen", value: apiaryCount ?? 0, icon: "📍", href: "/beheer/standplaatsen" },
-    { label: "Kasten", value: hiveCount ?? 0, icon: "🪵", href: "/beheer/kasten" },
-    { label: "Volken", value: colonyCount ?? 0, icon: "🐝", href: "/beheer/volken" },
-  ];
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {stats.map((s) => (
-        <Link
-          key={s.label}
-          href={s.href}
-          className="bg-stone-800 rounded-2xl p-5 border border-stone-700 hover:border-amber-500 transition-colors group"
-        >
-          <div className="text-2xl mb-2">{s.icon}</div>
-          <div className="text-3xl font-black text-amber-400">{s.value}</div>
-          <div className="text-stone-400 text-sm mt-1 group-hover:text-stone-200 transition-colors">
-            {s.label}
-          </div>
-        </Link>
-      ))}
-    </div>
-  );
+  return <DashboardStatsGrid stats={stats as DashboardStats} />;
 }

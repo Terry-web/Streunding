@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import DeleteButton from "@/components/DeleteButton";
-import PhotoGallery from "../../photos/PhotoGallery";
 import HiveForm from "../HiveForm";
 import { updateHive, deleteHive } from "../actions";
 
@@ -32,8 +31,6 @@ export default async function KastEditPage({
         </div>
         <HiveForm hive={hive} action={updateHive.bind(null, id)} />
       </div>
-
-      <PhotoGallery column="hive_id" parentId={hive.id} redirectTo={`/beheer/kasten/${id}`} />
     </div>
   );
 }

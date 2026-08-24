@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import DeleteButton from "@/components/DeleteButton";
-import PhotoGallery from "../../photos/PhotoGallery";
 import ApiaryForm from "../ApiaryForm";
 import { updateApiary, deleteApiary } from "../actions";
 
@@ -32,8 +31,6 @@ export default async function StandplaatsEditPage({
         </div>
         <ApiaryForm apiary={apiary} action={updateApiary.bind(null, id)} />
       </div>
-
-      <PhotoGallery column="apiary_id" parentId={apiary.id} redirectTo={`/beheer/standplaatsen/${id}`} />
     </div>
   );
 }

@@ -17,7 +17,6 @@ const features = [
   { icon: "📖", title: "Mijn verhalen", desc: "Eerlijke blogposts over mijn weg naar het imkeren.", href: "/blog", color: "from-amber-400 to-orange-400" },
   { icon: "🐝", title: "Over bijen", desc: "Alles wat ik leer over bijenvolken, seizoenen en imkeren.", href: "/informatief", color: "from-yellow-400 to-amber-400" },
   { icon: "🪵", title: "De kasten", desc: "Hoe ik mijn twee kasten zelf heb getimmerd.", href: "/kasten", color: "from-orange-400 to-red-400" },
-  { icon: "🍺", title: "Recepten", desc: "Mijn braggot en andere brouwsels met honing.", href: "/recepten", color: "from-amber-300 to-yellow-300" },
 ];
 
 const journey = [

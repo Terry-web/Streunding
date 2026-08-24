@@ -8,6 +8,8 @@ const tabs = [
   { href: "/beheer/standplaatsen", label: "Standplaatsen" },
   { href: "/beheer/kasten", label: "Kasten" },
   { href: "/beheer/volken", label: "Volken" },
+  { href: "/beheer/bestuiving", label: "Bestuiving" },
+  { href: "/beheer/recepten", label: "Recepten (todo)" },
 ];
 
 export default function BeheerNav() {

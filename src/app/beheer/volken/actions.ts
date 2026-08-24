@@ -90,6 +90,8 @@ export async function createInspection(
   if (error) return { error: error.message };
 
   revalidatePath(`/beheer/volken/${colonyId}`);
+  revalidatePath("/beheer/volken");
+  revalidatePath("/beheer");
   redirect(`/beheer/volken/${colonyId}`);
 }
 
@@ -99,5 +101,7 @@ export async function deleteInspection(colonyId: string, formData: FormData) {
   await supabase.from("inspections").delete().eq("id", id);
 
   revalidatePath(`/beheer/volken/${colonyId}`);
+  revalidatePath("/beheer/volken");
+  revalidatePath("/beheer");
   redirect(`/beheer/volken/${colonyId}`);
 }

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const stappen = [
-  { nr: "01", titel: "Materiaal kiezen", tekst: "Voor een Simplex kast heb je grenen of populier nodig. Niet te dun — de wanden moeten isoleren en stevig zijn. Ik koos voor 22mm grenen planken." },
+  { nr: "01", titel: "Materiaal kiezen", tekst: "Voor een Simplex kast heb je hout nodig dat weerbestendig is en genoeg isoleert. Ik koos voor 22mm douglas planken — van nature vochtwerend, dus minder onderhoud dan grenen." },
   { nr: "02", titel: "Maten opzoeken", tekst: "De Simplex kast heeft vaste maten die de bijenmaat respecteren: 8 tot 9mm ruimte tussen de raten. Die maten vind je online bij imkersverenigingen." },
   { nr: "03", titel: "Zagen en schuren", tekst: "Kast één: veel schuurwerk achteraf. Kast twee: beter gezaagd, minder schuurwerk. Leren door te doen." },
   { nr: "04", titel: "Lijmen en nagelen", tekst: "Buitenhoeken op 45 graden gezaagd voor een strakke afwerking. Constructielijm en roestvrije nagels voor duurzaamheid buiten." },
