@@ -1,0 +1,17 @@
+[Unit]
+Description=Streunding Next.js app
+After=network.target
+
+[Service]
+Type=simple
+User=streunding
+WorkingDirectory=/opt/streunding
+Environment=NODE_ENV=production
+Environment=PORT=3000
+EnvironmentFile=/opt/streunding/.env.production
+ExecStart=/usr/bin/npm run start
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

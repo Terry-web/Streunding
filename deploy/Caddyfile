@@ -1,0 +1,7 @@
+streunding.nl {
+	reverse_proxy 127.0.0.1:3000
+}
+
+www.streunding.nl {
+	redir https://streunding.nl{uri} permanent
+}
