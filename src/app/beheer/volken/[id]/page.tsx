@@ -68,7 +68,7 @@ export default async function VolkEditPage({
         />
       </div>
 
-      <PhotoGallery colonyId={colony.id} redirectTo={`/beheer/volken/${id}`} />
+      <PhotoGallery column="colony_id" parentId={colony.id} redirectTo={`/beheer/volken/${id}`} />
 
       <div>
         <h2 className="text-lg font-black text-stone-400 uppercase tracking-widest mb-4">Ontwikkeling</h2>

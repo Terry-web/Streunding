@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 
 type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
 
+export type PhotoParentColumn = "colony_id" | "hive_id";
+
 export type Photo = {
   id: string;
   filename: string;
@@ -11,12 +13,13 @@ export type Photo = {
 
 export async function getSignedPhotos(
   supabase: SupabaseServerClient,
-  colonyId: string
+  column: PhotoParentColumn,
+  parentId: string
 ): Promise<Photo[]> {
   const { data: docs } = await supabase
     .from("documents")
     .select("id, filename, storage_path")
-    .eq("colony_id", colonyId)
+    .eq(column, parentId)
     .order("uploaded_at", { ascending: false });
 
   if (!docs || docs.length === 0) return [];

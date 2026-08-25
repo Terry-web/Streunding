@@ -648,6 +648,8 @@ create table hives (
 
     notes text,
 
+    is_public boolean not null default false,  -- publieke /kasten-pagina, zie Sprint 8
+
     owner_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
     organization_id uuid references organizations(id) on delete set null,
 
@@ -661,6 +663,7 @@ create table hives (
 create index idx_hives_owner on hives(owner_id);
 create index idx_hives_org on hives(organization_id);
 create index idx_hives_trash on hives(organization_id) where deleted_at is not null;
+create index idx_hives_public on hives(is_public) where is_public = true;
 
 create trigger trg_hive_updated
 before update on hives
@@ -741,6 +744,8 @@ create table colonies (
 
     notes text,
 
+    is_public boolean not null default false,  -- publiek dagboek (/dagboek), zie Sprint 8
+
     owner_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
     organization_id uuid references organizations(id) on delete set null,
 
@@ -756,6 +761,7 @@ create index idx_colony_status on colonies(status);
 create index idx_colonies_owner on colonies(owner_id);
 create index idx_colonies_org on colonies(organization_id);
 create index idx_colonies_trash on colonies(organization_id) where deleted_at is not null;
+create index idx_colonies_public on colonies(is_public) where is_public = true;
 
 create trigger trg_colony_updated
 before update on colonies
@@ -2491,6 +2497,52 @@ create policy inspections_access on inspections
       and is_owner_or_org_member(c.owner_id, c.organization_id)
   ));
 
+-- =====================================================
+-- PUBLIEK DAGBOEK (/dagboek) — Sprint 8
+-- =====================================================
+-- Additieve select-only policies (Postgres OR't policies voor hetzelfde
+-- command samen) — verzwakt de owner/org-toegang hierboven niet, voegt
+-- alleen leesbaarheid toe voor colonies.is_public = true. Zelfde patroon
+-- als bestuifvolk_aanbod_publiek_leesbaar.
+
+create policy colonies_publiek_leesbaar on colonies
+  for select
+  using (is_public = true and deleted_at is null);
+
+create policy hives_publiek_leesbaar on hives
+  for select
+  using (
+    deleted_at is null
+    and exists (
+      select 1 from colonies c
+      where c.hive_id = hives.id and c.is_public = true and c.deleted_at is null
+    )
+  );
+
+-- Los van een volk: een kast staat vaak al klaar (getimmerd, gefotografeerd
+-- op /kasten) vóórdat er ooit een volk in zit — deze kast heeft dus zijn
+-- eigen is_public-vlag, onafhankelijk van colonies.is_public hierboven.
+create policy hives_publiek_leesbaar_eigen on hives
+  for select
+  using (is_public = true and deleted_at is null);
+
+create policy apiaries_publiek_leesbaar on apiaries
+  for select
+  using (exists (
+    select 1 from colonies c
+    where c.apiary_id = apiaries.id and c.is_public = true and c.deleted_at is null
+  ));
+
+create policy inspections_publiek_leesbaar on inspections
+  for select
+  using (
+    deleted_at is null
+    and exists (
+      select 1 from colonies c
+      where c.id = inspections.colony_id and c.is_public = true and c.deleted_at is null
+    )
+  );
+
 alter table treatments enable row level security;
 create policy treatments_access on treatments
   for all
@@ -2963,6 +3015,65 @@ create policy inspection_photos_storage_access on storage.objects
       where c.id::text = split_part(storage.objects.name, '/', 1)
         and is_owner_or_org_member(c.owner_id, c.organization_id)
     )
+  );
+
+-- Kasten (hives) delen dezelfde bucket, zelfde padconventie
+-- ({hive_id}/{bestandsnaam}) — los van colonies hierboven, want een kast
+-- staat vaak al klaar vóórdat er ooit een volk in zit (zie ook
+-- hives_publiek_leesbaar_eigen). Select is apart van insert/update/delete
+-- gehouden (i.p.v. één "for all"): DELETE checkt alleen de USING-clause,
+-- dus zou "is_public" daar ook in staan, kan een publieke bezoeker foto's
+-- van een publieke kast verwijderen. Schrijven blijft dus altijd
+-- owner-only, lezen mag ook bij is_public = true.
+
+drop policy if exists hives_storage_select on storage.objects;
+create policy hives_storage_select on storage.objects
+  for select
+  using (
+    bucket_id = 'photos'
+    and exists (
+      select 1 from hives h
+      where h.id::text = split_part(storage.objects.name, '/', 1)
+        and (is_owner_or_org_member(h.owner_id, h.organization_id) or h.is_public = true)
+    )
+  );
+
+drop policy if exists hives_storage_write on storage.objects;
+create policy hives_storage_write on storage.objects
+  for all
+  using (
+    bucket_id = 'photos'
+    and exists (
+      select 1 from hives h
+      where h.id::text = split_part(storage.objects.name, '/', 1)
+        and is_owner_or_org_member(h.owner_id, h.organization_id)
+    )
+  )
+  with check (
+    bucket_id = 'photos'
+    and exists (
+      select 1 from hives h
+      where h.id::text = split_part(storage.objects.name, '/', 1)
+        and is_owner_or_org_member(h.owner_id, h.organization_id)
+    )
+  );
+
+-- documents: publiek leesbaar zodra de gekoppelde kast of het gekoppelde
+-- volk publiek is — additief bovenop documents_access hierboven, zelfde
+-- patroon als colonies/hives/apiaries/inspections (Sprint 8).
+drop policy if exists documents_publiek_leesbaar on documents;
+create policy documents_publiek_leesbaar on documents
+  for select
+  using (
+    (hive_id is not null and exists (
+      select 1 from hives h
+      where h.id = documents.hive_id and h.is_public = true and h.deleted_at is null
+    ))
+    or
+    (colony_id is not null and exists (
+      select 1 from colonies c
+      where c.id = documents.colony_id and c.is_public = true and c.deleted_at is null
+    ))
   );
 
 -- =====================================================

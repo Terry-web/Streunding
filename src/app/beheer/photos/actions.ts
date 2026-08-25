@@ -8,8 +8,10 @@ import { str } from "@/lib/beheer/form-utils";
 
 export type PhotoFormState = { error: string } | undefined;
 
+export type PhotoParentColumn = "colony_id" | "hive_id";
+
 export async function uploadPhoto(
-  colonyId: string,
+  parent: { column: PhotoParentColumn; id: string },
   redirectTo: string,
   _prevState: PhotoFormState,
   formData: FormData
@@ -25,9 +27,10 @@ export async function uploadPhoto(
   if (!user) return { error: "Niet ingelogd." };
 
   const ext = file.name.split(".").pop() || "jpg";
-  // Padconventie {colony_id}/... volgt de storage-policy in supabase/schema.sql
-  // (inspection_photos_storage_access matcht het eerste padsegment tegen colonies.id).
-  const path = `${colonyId}/${randomUUID()}.${ext}`;
+  // Padconventie {colony_id of hive_id}/... volgt de storage-policies in
+  // supabase/schema.sql (matchen het eerste padsegment tegen colonies.id
+  // resp. hives.id).
+  const path = `${parent.id}/${randomUUID()}.${ext}`;
 
   const { error: uploadError } = await supabase.storage
     .from("photos")
@@ -35,7 +38,7 @@ export async function uploadPhoto(
   if (uploadError) return { error: uploadError.message };
 
   const { error: dbError } = await supabase.from("documents").insert({
-    colony_id: colonyId,
+    [parent.column]: parent.id,
     filename: file.name,
     storage_path: path,
   });

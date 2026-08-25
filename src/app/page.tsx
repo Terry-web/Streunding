@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: { absolute: "Streunding Imkerij" },
   description: "Mijn reis naar het imkeren — kasten timmeren, brouwen met honing en leren over bijen.",
 };
-
-const stats = [
-  { value: "2", label: "Kasten gebouwd", icon: "🪵" },
-  { value: "2027", label: "Basis cursus", icon: "📚" },
-  { value: "1e", label: "Braggot gebrouwen", icon: "🍺" },
-  { value: "∞", label: "Passie", icon: "❤️" },
-];
 
 const features = [
   { icon: "📖", title: "Mijn verhalen", desc: "Eerlijke blogposts over mijn weg naar het imkeren.", href: "/blog", color: "from-amber-400 to-orange-400" },
@@ -26,7 +20,20 @@ const journey = [
   { year: "2027", title: "Basis cursus", desc: "De officiële basis imkercursus — en dan eindelijk het eerste volk." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { count: aantalKasten } = await supabase
+    .from("hives")
+    .select("*", { count: "exact", head: true })
+    .eq("is_public", true);
+
+  const stats = [
+    { value: String(aantalKasten ?? 0), label: "Kasten gebouwd", icon: "🪵" },
+    { value: "2027", label: "Basis cursus", icon: "📚" },
+    { value: "1e", label: "Braggot gebrouwen", icon: "🍺" },
+    { value: "∞", label: "Passie", icon: "❤️" },
+  ];
+
   return (
     <div className="min-h-screen bg-amber-50 text-stone-800 overflow-x-hidden">
 

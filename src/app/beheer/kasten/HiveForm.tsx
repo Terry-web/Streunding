@@ -15,6 +15,7 @@ type Hive = {
   condition: string | null;
   in_use: boolean | null;
   notes: string | null;
+  is_public: boolean | null;
 };
 
 export default function HiveForm({
@@ -48,6 +49,16 @@ export default function HiveForm({
           className="rounded border-stone-300 text-amber-600 focus:ring-amber-400"
         />
         In gebruik
+      </label>
+
+      <label className="flex items-center gap-2 text-sm font-bold text-stone-700">
+        <input
+          type="checkbox"
+          name="is_public"
+          defaultChecked={hive?.is_public ?? false}
+          className="rounded border-stone-300 text-amber-600 focus:ring-amber-400"
+        />
+        Toon op publieke /kasten-pagina
       </label>
 
       <div>

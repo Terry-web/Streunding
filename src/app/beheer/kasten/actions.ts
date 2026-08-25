@@ -17,6 +17,7 @@ function payloadFromFormData(formData: FormData) {
     condition: str(formData.get("condition")) || null,
     in_use: boolFromCheckbox(formData, "in_use"),
     notes: str(formData.get("notes")) || null,
+    is_public: boolFromCheckbox(formData, "is_public"),
   };
 }
 
@@ -32,6 +33,9 @@ export async function createHive(
   if (error) return { error: error.message };
 
   revalidatePath("/beheer/kasten");
+  revalidatePath("/kasten");
+  revalidatePath("/");
+  revalidatePath("/over-mij");
   redirect("/beheer/kasten");
 }
 
@@ -49,6 +53,9 @@ export async function updateHive(
 
   revalidatePath("/beheer/kasten");
   revalidatePath(`/beheer/kasten/${id}`);
+  revalidatePath("/kasten");
+  revalidatePath("/");
+  revalidatePath("/over-mij");
   redirect("/beheer/kasten");
 }
 
@@ -66,5 +73,8 @@ export async function deleteHive(formData: FormData) {
   }
 
   revalidatePath("/beheer/kasten");
+  revalidatePath("/kasten");
+  revalidatePath("/");
+  revalidatePath("/over-mij");
   redirect("/beheer/kasten");
 }

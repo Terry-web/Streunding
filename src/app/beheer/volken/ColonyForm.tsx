@@ -16,6 +16,7 @@ type Colony = {
   status: string | null;
   established_date: string | null;
   notes: string | null;
+  is_public: boolean | null;
 };
 
 export default function ColonyForm({
@@ -132,6 +133,16 @@ export default function ColonyForm({
           className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
         />
       </div>
+
+      <label className="flex items-center gap-2 text-sm font-bold text-stone-700">
+        <input
+          type="checkbox"
+          name="is_public"
+          defaultChecked={colony?.is_public ?? false}
+          className="rounded border-stone-300"
+        />
+        Toon in publiek dagboek (/dagboek)
+      </label>
 
       {state?.error && (
         <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl px-3 py-2">

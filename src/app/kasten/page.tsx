@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { hiveTypeLabels } from "@/lib/beheer/labels";
 
 export const metadata: Metadata = {
   title: "De kasten",
@@ -15,7 +17,27 @@ const stappen = [
   { nr: "06", titel: "Klaar!", tekst: "Beide kasten staan klaar in de schuur. Ze wachten op hun eerste bewoners — dat wordt 2027 na de basis imkercursus." },
 ];
 
-export default function Kasten() {
+export default async function Kasten() {
+  const supabase = await createClient();
+  const { data: hives } = await supabase
+    .from("hives")
+    .select("*")
+    .eq("is_public", true)
+    .order("purchase_date", { ascending: true });
+
+  const aantal = hives?.length ?? 0;
+
+  const types = new Set((hives ?? []).map((h) => h.type).filter(Boolean));
+  const eersteType = [...types][0];
+  const typeLabel =
+    types.size === 1 ? hiveTypeLabels[eersteType as string] ?? eersteType : types.size > 1 ? "Gemengd" : "—";
+
+  const jaren = (hives ?? [])
+    .map((h) => h.purchase_date)
+    .filter((d): d is string => !!d)
+    .map((d) => new Date(d).getFullYear());
+  const gebouwdLabel = jaren.length > 0 ? String(Math.min(...jaren)) : "—";
+
   return (
     <div className="min-h-screen bg-amber-50 text-stone-800">
 
@@ -49,11 +71,38 @@ export default function Kasten() {
       {/* Stats */}
       <section className="bg-amber-900 text-white py-10">
         <div className="max-w-3xl mx-auto px-6 grid grid-cols-3 gap-8 text-center">
-          <div><div className="text-3xl mb-1">🪵</div><div className="text-3xl font-black text-amber-400">2</div><div className="text-amber-200 text-xs uppercase tracking-widest">Kasten</div></div>
-          <div><div className="text-3xl mb-1">📐</div><div className="text-3xl font-black text-amber-400">Simplex</div><div className="text-amber-200 text-xs uppercase tracking-widest">Kasttype</div></div>
-          <div><div className="text-3xl mb-1">🔨</div><div className="text-3xl font-black text-amber-400">2025</div><div className="text-amber-200 text-xs uppercase tracking-widest">Gebouwd</div></div>
+          <div><div className="text-3xl mb-1">🪵</div><div className="text-3xl font-black text-amber-400">{aantal}</div><div className="text-amber-200 text-xs uppercase tracking-widest">Kasten</div></div>
+          <div><div className="text-3xl mb-1">📐</div><div className="text-3xl font-black text-amber-400">{typeLabel}</div><div className="text-amber-200 text-xs uppercase tracking-widest">Kasttype</div></div>
+          <div><div className="text-3xl mb-1">🔨</div><div className="text-3xl font-black text-amber-400">{gebouwdLabel}</div><div className="text-amber-200 text-xs uppercase tracking-widest">Gebouwd</div></div>
         </div>
       </section>
+
+      {/* Mijn kasten */}
+      {aantal > 0 && (
+        <section className="max-w-5xl mx-auto px-6 py-16">
+          <p className="text-amber-700 font-semibold uppercase tracking-widest text-sm text-center mb-2">
+            In het echt
+          </p>
+          <h2 className="text-4xl font-black text-center mb-10 text-stone-900">Mijn kasten</h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {hives!.map((h) => (
+              <div key={h.id} className="bg-white rounded-2xl shadow border border-amber-100 p-7 flex flex-col">
+                <h3 className="text-2xl font-black text-stone-900">{h.label}</h3>
+                <p className="text-stone-400 text-sm mt-1">
+                  {hiveTypeLabels[h.type ?? ""] ?? h.type}
+                  {h.purchase_date ? ` · ${new Date(h.purchase_date).getFullYear()}` : ""}
+                </p>
+                <Link
+                  href={`/kasten/${h.id}`}
+                  className="mt-5 inline-block bg-amber-600 hover:bg-amber-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors self-start"
+                >
+                  Bekijk deze kast →
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Verhaal */}
       <section className="max-w-3xl mx-auto px-6 py-16">

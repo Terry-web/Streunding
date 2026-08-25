@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Over mij",
   description: "Wie is Terry en waarom wil hij imker worden? Lees mijn verhaal.",
 };
-
-const cijfers = [
-  { value: "2", label: "Kasten gebouwd", icon: "🪵" },
-  { value: "2027", label: "Basis cursus", icon: "📚" },
-  { value: "1e", label: "Braggot gebrouwen", icon: "🍺" },
-  { value: "Binnenkort", label: "Eerste volk", icon: "🐝" },
-];
 
 const tijdlijn = [
   {
@@ -41,7 +35,20 @@ const tijdlijn = [
   },
 ];
 
-export default function OverMij() {
+export default async function OverMij() {
+  const supabase = await createClient();
+  const { count: aantalKasten } = await supabase
+    .from("hives")
+    .select("*", { count: "exact", head: true })
+    .eq("is_public", true);
+
+  const cijfers = [
+    { value: String(aantalKasten ?? 0), label: "Kasten gebouwd", icon: "🪵" },
+    { value: "2027", label: "Basis cursus", icon: "📚" },
+    { value: "1e", label: "Braggot gebrouwen", icon: "🍺" },
+    { value: "Binnenkort", label: "Eerste volk", icon: "🐝" },
+  ];
+
   return (
     <div className="min-h-screen bg-amber-50 text-stone-800">
 

@@ -1,18 +1,20 @@
 import { createClient } from "@/lib/supabase/server";
-import { getSignedPhotos } from "@/lib/beheer/photos";
+import { getSignedPhotos, type PhotoParentColumn } from "@/lib/beheer/photos";
 import DeleteButton from "@/components/DeleteButton";
 import PhotoUploadForm from "./PhotoUploadForm";
 import { uploadPhoto, deletePhoto } from "./actions";
 
 export default async function PhotoGallery({
-  colonyId,
+  column,
+  parentId,
   redirectTo,
 }: {
-  colonyId: string;
+  column: PhotoParentColumn;
+  parentId: string;
   redirectTo: string;
 }) {
   const supabase = await createClient();
-  const photos = await getSignedPhotos(supabase, colonyId);
+  const photos = await getSignedPhotos(supabase, column, parentId);
 
   return (
     <div>
@@ -47,7 +49,7 @@ export default async function PhotoGallery({
         </div>
       )}
 
-      <PhotoUploadForm action={uploadPhoto.bind(null, colonyId, redirectTo)} />
+      <PhotoUploadForm action={uploadPhoto.bind(null, { column, id: parentId }, redirectTo)} />
     </div>
   );
 }

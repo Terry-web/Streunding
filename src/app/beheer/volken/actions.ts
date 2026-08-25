@@ -16,6 +16,7 @@ function colonyPayloadFromFormData(formData: FormData) {
     status: str(formData.get("status")) || "active",
     established_date: dateOrNull(formData.get("established_date")),
     notes: str(formData.get("notes")) || null,
+    is_public: formData.get("is_public") === "on",
   };
 }
 
@@ -31,6 +32,7 @@ export async function createColony(
   if (error) return { error: error.message };
 
   revalidatePath("/beheer/volken");
+  revalidatePath("/dagboek");
   redirect(`/beheer/volken/${data.id}`);
 }
 
@@ -48,6 +50,7 @@ export async function updateColony(
 
   revalidatePath("/beheer/volken");
   revalidatePath(`/beheer/volken/${id}`);
+  revalidatePath("/dagboek");
   redirect(`/beheer/volken/${id}`);
 }
 
@@ -92,6 +95,7 @@ export async function createInspection(
   revalidatePath(`/beheer/volken/${colonyId}`);
   revalidatePath("/beheer/volken");
   revalidatePath("/beheer");
+  revalidatePath("/dagboek");
   redirect(`/beheer/volken/${colonyId}`);
 }
 
@@ -103,5 +107,6 @@ export async function deleteInspection(colonyId: string, formData: FormData) {
   revalidatePath(`/beheer/volken/${colonyId}`);
   revalidatePath("/beheer/volken");
   revalidatePath("/beheer");
+  revalidatePath("/dagboek");
   redirect(`/beheer/volken/${colonyId}`);
 }
