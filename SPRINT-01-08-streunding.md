@@ -346,26 +346,36 @@ Vervolg op Sprint 7 (bestuivingsvolken-pagina) plus een nieuw stuk, geïnspireer
 door de HiveGuide-talk (SciPy 2026): spraak tijdens een inspectie direct omzetten
 naar gestructureerde velden.
 
-## A. Bestuivingsvolken-pagina afronden
+## A. Bestuivingsvolken-pagina afronden (gebouwd)
 
 Open designvraag uit Sprint 7 is beslist: **standaalpagina**, niet in de
-donor/adoptie-flow. Tier 1 (particulieren) lijkt daarop, maar tiers 2–4 zijn
-B2B-leads (offerte, adviesgesprek) — andere funnel dan adoptie.
+donor/adoptie-flow — dat stond al live vanuit Sprint 7 (aanbod-kaarten +
+aanvraagformulier). Het oorspronkelijke tier 1-4-idee hierboven was een
+concept, geen vaste spec — in plaats van een losse `bestuiving_aanvragen`-
+tabel met tier-veld is het bestaande `bestuifvolk_aanvragen` uitgebreid:
 
-- [ ] Supabase-migratie: tabel `bestuiving_aanvragen`
-      (tier, naam, contact, gewas, oppervlakte, bloeiperiode, status, created_at)
-- [ ] RLS-policy: anon insert toegestaan, select alleen voor eigenaar
-- [ ] Route `/bestuiving` met `BestuivingPage`-component
-- [ ] Formulier achter elke tier-CTA, gekoppeld aan `onRequest` → insert
-      (extra velden gewas/oppervlakte alleen zichtbaar bij tier 3–4)
-- [ ] Kruislink vanaf homepage/hoofdnavigatie
-- [ ] Mobiel- en contrastcheck
+- [x] Migratie `0025_bestuiving_zakelijk.sql`: `aanbod_id` optioneel,
+      plus `doelgroep` (particulier/zakelijk), `gewas`, `oppervlakte`,
+      `bloeiperiode`. RLS zo aangepast dat zakelijke aanvragen (zonder
+      gekoppeld aanbod-item) zichtbaar zijn voor elke eigenaar met eigen
+      bestuifvolk-aanbod.
+- [x] Nieuw blok op `/bestuiving`: "Bestuiving voor je bedrijf, boomgaard
+      of teelt?" met adviesformulier (`ZakelijkeAanvraag.tsx`,
+      `createZakelijkeAanvraag`-action) — geen aparte tier-CTA's, één
+      formulier voor alle zakelijke aanvragen.
+- [x] Beheeroverzicht toont "zakelijk"-badge + gewas/oppervlakte/
+      bloeiperiode i.p.v. het gekoppelde aanbod-item.
+- [ ] **Migratie nog niet gedraaid op de live database** — wordt gedaan
+      bij de volgende deploy, niet los daarvoor.
 
-**Verifieerbaar:** testaanvraag per tier plaatsen, rij verschijnt in
-`bestuiving_aanvragen` met juiste velden; RLS-test bevestigt anon insert werkt
-en anon select geweigerd wordt.
+**Verifieerbaar (na migratie):** zakelijke aanvraag versturen, rij
+verschijnt in `bestuifvolk_aanvragen` met `doelgroep = 'zakelijk'` en
+`aanbod_id = null`; RLS-test bevestigt dat de eigenaar 'm ziet.
 
-## B. Spraak-naar-inspectie extractie
+## B. Spraak-naar-inspectie extractie (in de ijskast)
+
+**Status: geparkeerd — geen actie tot verder bericht.** Plan hieronder blijft
+staan voor als dit weer wordt opgepakt.
 
 Nieuw sprintje, geïnspireerd door HiveGuide (open-source SciPy-talk): tijdens
 een inspectie inspreken i.p.v. typen, met AI-extractie naar het bestaande
@@ -386,11 +396,6 @@ in donor-updates); dit zit ervóór in de flow.
 **Verifieerbaar:** testset voorbeeldzinnen → juiste velden correct ingevuld;
 edge case met onduidelijke input geeft zichtbare foutmelding i.p.v. silent
 failure.
-
-## Volgorde
-
-B hangt af van het bestaande inspectieschema (al aanwezig) — geen blokkers
-tussen A en B, kunnen parallel.
 
 ## Uit scope dit sprint
 

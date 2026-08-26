@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import AanbodCard from "./AanbodCard";
+import ZakelijkeAanvraag from "./ZakelijkeAanvraag";
 
 export const metadata: Metadata = {
   title: "Bestuiving",
@@ -57,6 +58,8 @@ export default async function Bestuiving() {
           </div>
         )}
       </section>
+
+      <ZakelijkeAanvraag />
     </div>
   );
 }

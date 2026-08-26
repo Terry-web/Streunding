@@ -96,10 +96,20 @@ export default async function BestuivingPage({
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div>
                     <p className="font-bold text-white">
-                      {v.naam} <span className="text-stone-500 font-normal">· {v.aantal}x</span>
+                      {v.naam}
+                      {v.doelgroep === "zakelijk" ? (
+                        <span className="ml-2 text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/40 rounded-full px-2 py-0.5 align-middle">
+                          zakelijk
+                        </span>
+                      ) : (
+                        <span className="text-stone-500 font-normal"> · {v.aantal}x</span>
+                      )}
                     </p>
                     <p className="text-stone-400 text-sm mt-1">
-                      {v.bestuifvolk_aanbod?.naam ?? "onbekend aanbod"}
+                      {v.doelgroep === "zakelijk"
+                        ? [v.gewas, v.oppervlakte, v.bloeiperiode].filter(Boolean).join(" · ") ||
+                          "adviesaanvraag"
+                        : (v.bestuifvolk_aanbod?.naam ?? "onbekend aanbod")}
                       {" · "}
                       <a href={`mailto:${v.email}`} className="hover:underline">
                         {v.email}

@@ -36,3 +36,35 @@ export async function createAanvraag(
 
   return { success: true };
 }
+
+export async function createZakelijkeAanvraag(
+  _prevState: AanvraagFormState,
+  formData: FormData
+): Promise<AanvraagFormState> {
+  const naam = str(formData.get("naam"));
+  const email = str(formData.get("email"));
+  const telefoon = str(formData.get("telefoon")) || null;
+  const gewas = str(formData.get("gewas")) || null;
+  const oppervlakte = str(formData.get("oppervlakte")) || null;
+  const bloeiperiode = str(formData.get("bloeiperiode")) || null;
+  const opmerking = str(formData.get("opmerking")) || null;
+
+  if (!naam) return { error: "Naam is verplicht." };
+  if (!email || !EMAIL_PATTERN.test(email)) return { error: "Vul een geldig e-mailadres in." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("bestuifvolk_aanvragen").insert({
+    aanbod_id: null,
+    doelgroep: "zakelijk",
+    naam,
+    email,
+    telefoon,
+    gewas,
+    oppervlakte,
+    bloeiperiode,
+    opmerking,
+  });
+  if (error) return { error: "Versturen is niet gelukt, probeer het later opnieuw." };
+
+  return { success: true };
+}
