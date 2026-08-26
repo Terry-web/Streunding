@@ -3136,8 +3136,9 @@ create table bestuifvolk_aanvragen (
 
     id uuid primary key default gen_random_uuid(),
 
+    -- Optioneel: een zakelijke adviesaanvraag (doelgroep = 'zakelijk') is
+    -- geen bestelling van een specifiek aanbod-item, zie 0025.
     aanbod_id uuid
-        not null
         references bestuifvolk_aanbod(id)
         on delete cascade,
 
@@ -3148,6 +3149,13 @@ create table bestuifvolk_aanvragen (
     gewenste_leverdatum date,
     opmerking text,
     status text not null default 'nieuw',   -- nieuw / bevestigd / geleverd / geannuleerd
+
+    doelgroep text not null default 'particulier'
+        constraint bestuifvolk_aanvragen_doelgroep_check
+        check (doelgroep in ('particulier', 'zakelijk')),
+    gewas text,
+    oppervlakte text,
+    bloeiperiode text,
 
     created_at timestamptz not null default now()
 
@@ -3163,21 +3171,38 @@ create policy bestuifvolk_aanvragen_aanmaken_door_iedereen on bestuifvolk_aanvra
   for insert
   with check (true);
 
+-- Aanvraag met aanbod_id: eigenaar/org van dat aanbod-item. Zonder
+-- aanbod_id (zakelijke adviesaanvraag, 0025): elke eigenaar/org-lid met
+-- minstens één bestuifvolk_aanbod-item.
 create policy bestuifvolk_aanvragen_lezen_door_eigenaar on bestuifvolk_aanvragen
   for select
-  using (exists (
-    select 1 from bestuifvolk_aanbod a
-    where a.id = bestuifvolk_aanvragen.aanbod_id
-      and is_owner_or_org_member(a.owner_id, a.organization_id)
-  ));
+  using (
+    (aanbod_id is not null and exists (
+      select 1 from bestuifvolk_aanbod a
+      where a.id = bestuifvolk_aanvragen.aanbod_id
+        and is_owner_or_org_member(a.owner_id, a.organization_id)
+    ))
+    or
+    (aanbod_id is null and exists (
+      select 1 from bestuifvolk_aanbod a
+      where is_owner_or_org_member(a.owner_id, a.organization_id)
+    ))
+  );
 
 create policy bestuifvolk_aanvragen_status_door_eigenaar on bestuifvolk_aanvragen
   for update
-  using (exists (
-    select 1 from bestuifvolk_aanbod a
-    where a.id = bestuifvolk_aanvragen.aanbod_id
-      and is_owner_or_org_member(a.owner_id, a.organization_id)
-  ));
+  using (
+    (aanbod_id is not null and exists (
+      select 1 from bestuifvolk_aanbod a
+      where a.id = bestuifvolk_aanvragen.aanbod_id
+        and is_owner_or_org_member(a.owner_id, a.organization_id)
+    ))
+    or
+    (aanbod_id is null and exists (
+      select 1 from bestuifvolk_aanbod a
+      where is_owner_or_org_member(a.owner_id, a.organization_id)
+    ))
+  );
 
 grant select, update on bestuifvolk_aanvragen to authenticated;
 grant insert on bestuifvolk_aanvragen to anon, authenticated;
