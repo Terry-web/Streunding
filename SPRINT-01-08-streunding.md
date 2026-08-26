@@ -1,4 +1,4 @@
-# Streunding — Sprints 1 t/m 7: Dashboard, Volkenoverzicht & Kastdetail
+# Streunding — Sprints 1 t/m 8: Dashboard, Volkenoverzicht, Kastdetail & Publieke pagina's
 
 Opgesplitst in 6 kleine, los oplevbare sprints i.p.v. één grote. Elke sprint is op zichzelf testbaar en bouwt voort op de vorige.
 
@@ -312,6 +312,94 @@ create policy aanvraag_status_door_eigenaar on bestuifvolk_aanvragen
 
 ---
 
+## Sprint 8 — Publiek dagboek, publieke kasten & kastfoto's (uitgevoerd)
+
+**Status:** gebouwd en gemerged (`c430d6f`).
+
+- `is_public` op `colonies` en `hives`, met additieve publieke select-policies
+  (RLS blijft owner/org-only voor schrijven — verzwakt niets bestaands).
+- `/dagboek` leest nu live `colony_status_overview` + `inspections` i.p.v. het
+  losse `content/inspecties.json`.
+- `/kasten`, homepage en `/over-mij`: hardcoded "2 kasten"-cijfers vervangen
+  door een live telling van publieke kasten.
+- `/kasten/[id]`: nieuwe publieke kastdetailpagina (info + foto's).
+- `PhotoGallery`/`uploadPhoto`/`getSignedPhotos` generiek gemaakt voor
+  `colony_id` én `hive_id`, zodat kastfoto's weer werken in `/beheer/kasten`.
+- Storage-policy voor kasten: select apart van insert/update/delete gehouden
+  (owner-of-publiek voor lezen, altijd owner-only voor schrijven/verwijderen)
+  — anders zou een publieke bezoeker via DELETE foto's van een publieke kast
+  kunnen wissen.
+- SQL: `supabase/migrations/0022_dagboek_public.sql`,
+  `0023_kasten_public.sql`, `0024_kasten_fotos.sql`.
+
+---
+
 ## Openstaande vraag voor jou
 
 Sprint 4 gaat er nu van uit dat "de huidige bewoner van een kast" = de meest recent gestarte, nog niet dode/verkochte/samengevoegde `colonies`-rij met dat `hive_id` (`status not in ('dead','sold','merged')`, hoogste `established_date`). Als kasten in de praktijk toch altijd 1-op-1 aan één volk blijven hangen, kan Sprint 3/4 weer terug naar een simpelere kast-centrische route — zeg het als dat zo is.
+
+---
+
+# Sprint 9 — Bestuiving live + spraak-naar-inspectie
+
+Vervolg op Sprint 7 (bestuivingsvolken-pagina) plus een nieuw stuk, geïnspireerd
+door de HiveGuide-talk (SciPy 2026): spraak tijdens een inspectie direct omzetten
+naar gestructureerde velden.
+
+## A. Bestuivingsvolken-pagina afronden
+
+Open designvraag uit Sprint 7 is beslist: **standaalpagina**, niet in de
+donor/adoptie-flow. Tier 1 (particulieren) lijkt daarop, maar tiers 2–4 zijn
+B2B-leads (offerte, adviesgesprek) — andere funnel dan adoptie.
+
+- [ ] Supabase-migratie: tabel `bestuiving_aanvragen`
+      (tier, naam, contact, gewas, oppervlakte, bloeiperiode, status, created_at)
+- [ ] RLS-policy: anon insert toegestaan, select alleen voor eigenaar
+- [ ] Route `/bestuiving` met `BestuivingPage`-component
+- [ ] Formulier achter elke tier-CTA, gekoppeld aan `onRequest` → insert
+      (extra velden gewas/oppervlakte alleen zichtbaar bij tier 3–4)
+- [ ] Kruislink vanaf homepage/hoofdnavigatie
+- [ ] Mobiel- en contrastcheck
+
+**Verifieerbaar:** testaanvraag per tier plaatsen, rij verschijnt in
+`bestuiving_aanvragen` met juiste velden; RLS-test bevestigt anon insert werkt
+en anon select geweigerd wordt.
+
+## B. Spraak-naar-inspectie extractie
+
+Nieuw sprintje, geïnspireerd door HiveGuide (open-source SciPy-talk): tijdens
+een inspectie inspreken i.p.v. typen, met AI-extractie naar het bestaande
+inspectieschema. Bouwt voort op de Bijenlogboek-artifact (die zet notities om
+in donor-updates); dit zit ervóór in de flow.
+
+- [ ] Spraak-invoer op het inspectieformulier (browser Web Speech API als
+      eerste stap — geen native app nodig, dat was HiveGuide's eigen
+      latency-eis, niet noodzakelijk hier)
+- [ ] LLM-extractiestap: transcript → gestructureerde velden op basis van het
+      bestaande inspectieschema (temperatuur, koningin gezien, broedpatroon,
+      etc.)
+- [ ] Reviewstap: ingevulde velden tonen vóór opslaan, gebruiker kan corrigeren
+      — nooit direct wegschrijven zonder controle
+- [ ] Validatie: bij onduidelijke/lege extractie een melding tonen, geen stille
+      lege velden
+
+**Verifieerbaar:** testset voorbeeldzinnen → juiste velden correct ingevuld;
+edge case met onduidelijke input geeft zichtbare foutmelding i.p.v. silent
+failure.
+
+## Volgorde
+
+B hangt af van het bestaande inspectieschema (al aanwezig) — geen blokkers
+tussen A en B, kunnen parallel.
+
+## Uit scope dit sprint
+
+- Foto-gebaseerde defectherkenning (InfraSight-idee) — geparkeerd voor later,
+  vereist computer vision i.p.v. tekst-extractie
+- Routing-classifier "eigen data vs. vakliteratuur" — relevant voor Melion
+  Pro, niet voor Streunding, en pas zodra AI-Q&A daadwerkelijk op de
+  Melion-roadmap staat
+
+## Loose ends
+
+Geen bekende op dit moment.
