@@ -87,7 +87,7 @@ export default function AanbodCard({ aanbod }: { aanbod: Aanbod }) {
           onClick={() => setOpen(true)}
           className="mt-2 bg-amber-600 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors"
         >
-          Bestel je bestuifvolk
+          Vraag dit bestuifvolk aan
         </button>
       )}
     </div>

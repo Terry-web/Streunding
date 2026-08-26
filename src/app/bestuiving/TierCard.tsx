@@ -72,7 +72,7 @@ export default function TierCard({ tier }: { tier: Tier }) {
               {state.error}
             </p>
           )}
-          <SubmitButton>{tier.ctaLabel} versturen</SubmitButton>
+          <SubmitButton>Aanvraag versturen</SubmitButton>
         </form>
       ) : (
         <button

@@ -22,7 +22,7 @@ export const tiers: Tier[] = [
       "Lokale levering en plaatsing",
       "Flexibele inzet tijdens de bloeiperiode",
     ],
-    ctaLabel: "Bestel je bestuifvolk",
+    ctaLabel: "Vraag een bestuifvolk aan",
     doelgroep: "particulier",
     gewasVelden: false,
   },

@@ -6,7 +6,7 @@ import { tiers } from "./tiers";
 
 export const metadata: Metadata = {
   title: "Bestuiving",
-  description: "Bestuifvolken bestellen voor jouw tuin, boomgaard of veld.",
+  description: "Bestuiving op maat voor jouw tuin, boomgaard of teelt — vraag het aan.",
 };
 
 export default async function Bestuiving() {
@@ -40,7 +40,8 @@ export default async function Bestuiving() {
             Bestuif<span className="text-amber-400">volken</span>
           </h1>
           <p className="text-lg text-amber-200 max-w-xl mx-auto leading-relaxed">
-            Bestel een bestuifvolk voor je tuin, boomgaard of veld — je krijgt binnen 2 werkdagen bericht.
+            Bestuiving nodig voor je tuin, boomgaard of teelt? Laat je gegevens achter — je krijgt
+            binnen 2 werkdagen bericht.
           </p>
         </div>
       </section>
@@ -58,7 +59,7 @@ export default async function Bestuiving() {
       {aanbod && aanbod.length > 0 && (
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <h2 className="text-lg font-black text-stone-400 uppercase tracking-widest mb-6">
-            Actueel aanbod
+            Direct beschikbaar
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {aanbod.map((a) => (
