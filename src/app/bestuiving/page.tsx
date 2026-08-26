@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import AanbodCard from "./AanbodCard";
-import ZakelijkeAanvraag from "./ZakelijkeAanvraag";
+import TierCard from "./TierCard";
+import { tiers } from "./tiers";
 
 export const metadata: Metadata = {
   title: "Bestuiving",
@@ -44,22 +45,28 @@ export default async function Bestuiving() {
         </div>
       </section>
 
-      {/* Aanbod */}
+      {/* Tiers */}
       <section className="max-w-6xl mx-auto px-6 py-20">
-        {!aanbod || aanbod.length === 0 ? (
-          <p className="text-stone-500 text-center">
-            Er is op dit moment geen aanbod beschikbaar — kom later nog eens terug.
-          </p>
-        ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {tiers.map((tier) => (
+            <TierCard key={tier.id} tier={tier} />
+          ))}
+        </div>
+      </section>
+
+      {/* Actueel aanbod */}
+      {aanbod && aanbod.length > 0 && (
+        <section className="max-w-6xl mx-auto px-6 pb-20">
+          <h2 className="text-lg font-black text-stone-400 uppercase tracking-widest mb-6">
+            Actueel aanbod
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {aanbod.map((a) => (
               <AanbodCard key={a.id} aanbod={a} />
             ))}
           </div>
-        )}
-      </section>
-
-      <ZakelijkeAanvraag />
+        </section>
+      )}
     </div>
   );
 }

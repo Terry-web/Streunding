@@ -37,7 +37,9 @@ export async function createAanvraag(
   return { success: true };
 }
 
-export async function createZakelijkeAanvraag(
+export async function createTierAanvraag(
+  tier: "tuin" | "boomgaard" | "teelt" | "maatwerk",
+  doelgroep: "particulier" | "zakelijk",
   _prevState: AanvraagFormState,
   formData: FormData
 ): Promise<AanvraagFormState> {
@@ -55,7 +57,8 @@ export async function createZakelijkeAanvraag(
   const supabase = await createClient();
   const { error } = await supabase.from("bestuifvolk_aanvragen").insert({
     aanbod_id: null,
-    doelgroep: "zakelijk",
+    doelgroep,
+    tier,
     naam,
     email,
     telefoon,

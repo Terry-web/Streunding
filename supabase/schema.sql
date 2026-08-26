@@ -3157,6 +3157,12 @@ create table bestuifvolk_aanvragen (
     oppervlakte text,
     bloeiperiode text,
 
+    -- Via welke van de 4 publieke CTA's (tuin/boomgaard/teelt/maatwerk) de
+    -- aanvraag binnenkwam, zie 0026. Puur informatief voor het beheerscherm.
+    tier text
+        constraint bestuifvolk_aanvragen_tier_check
+        check (tier is null or tier in ('tuin', 'boomgaard', 'teelt', 'maatwerk')),
+
     created_at timestamptz not null default now()
 
 );
