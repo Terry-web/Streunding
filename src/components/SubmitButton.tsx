@@ -15,7 +15,8 @@ export default function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl transition-colors"
+      className="w-full rounded border border-[#b68235] px-6 py-3 text-base tracking-[0.06em] text-[#7d5411] transition-colors hover:bg-[#b68235]/10 disabled:cursor-not-allowed disabled:border-[#201f1d]/25 disabled:text-[#a3a09e] disabled:hover:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235]"
+      style={{ fontFamily: "var(--font-heading), Georgia, serif", fontWeight: 600 }}
     >
       {pending ? pendingLabel : children}
     </button>

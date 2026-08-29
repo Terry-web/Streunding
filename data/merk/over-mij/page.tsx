@@ -164,7 +164,7 @@ export default async function OverMij() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="border-t border-[#201f1d]/15 bg-[#eeeceb]">
+      <section className="border-t border-[#201f1d]/15 bg-[#eeeceb]">
         <div className="mx-auto grid max-w-6xl items-start gap-12 px-6 py-20 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] md:gap-16">
           <div className="flex flex-col gap-5">
             <Kicker>Vragen of ideeën?</Kicker>

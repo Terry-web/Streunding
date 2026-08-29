@@ -125,7 +125,7 @@ export default async function Bestuiving() {
           </div>
           <div className="flex flex-wrap gap-3.5 md:justify-end">
             <Link
-              href="/over-mij#contact"
+              href="/over-mij"
               className={`rounded border border-[#e1ad66] px-6 py-3.5 text-base tracking-[0.06em] text-[#e1ad66] transition-colors hover:bg-[#e1ad66]/10 ${focus}`}
               style={{ fontFamily: "var(--font-heading), Georgia, serif", fontWeight: 600 }}
             >

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Cormorant_Garamond, Lora } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollAnimations from "@/components/ScrollAnimations";
@@ -8,6 +8,18 @@ import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "600"],
+  variable: "--font-heading",
+});
+const lora = Lora({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "600"],
+  variable: "--font-body",
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://streunding.nl";
 
@@ -33,7 +45,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   } = await supabase.auth.getUser();
 
   return (
-    <html lang="nl" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="nl"
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} ${lora.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         <Nav userEmail={user?.email ?? null} />
         <ScrollAnimations />

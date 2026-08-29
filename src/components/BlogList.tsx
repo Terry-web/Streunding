@@ -3,11 +3,8 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Post } from "@/lib/posts";
 
-const tagKleur: Record<string, string> = {
-  Verhaal: "bg-amber-100 text-amber-800",
-  Ambacht: "bg-orange-100 text-orange-800",
-  Recept: "bg-yellow-100 text-yellow-800",
-};
+const focus =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235] rounded-sm";
 
 export default function BlogList({ posts }: { posts: Post[] }) {
   const [actieveTag, setActieveTag] = useState<string | null>(null);
@@ -15,25 +12,32 @@ export default function BlogList({ posts }: { posts: Post[] }) {
   const gefilterd = actieveTag ? posts.filter((p) => p.tag === actieveTag) : posts;
 
   return (
-    <section className="bg-stone-100 py-20">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-10">
-          <div>
-            <p className="text-amber-700 font-semibold uppercase tracking-widest text-sm mb-1">Archief</p>
-            <h2 className="text-4xl font-black text-stone-900">Alle berichten</h2>
-          </div>
-          <div className="flex gap-2 flex-wrap">
+    <section className="border-t border-[#201f1d]/15 bg-[#f3f2f2]">
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="mb-10 flex flex-wrap items-baseline justify-between gap-6">
+          <h2 className="text-[2.625rem] leading-none">Alle berichten</h2>
+          <div className="flex flex-wrap gap-2.5">
             <button
+              type="button"
               onClick={() => setActieveTag(null)}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${!actieveTag ? "bg-amber-900 text-white" : "bg-white text-stone-600 hover:bg-amber-100"}`}
+              className={`rounded-sm border px-3.5 py-1.5 text-xs uppercase tracking-[0.12em] transition-colors ${focus} ${
+                !actieveTag
+                  ? "border-[#b68235] text-[#7d5411]"
+                  : "border-[#201f1d]/20 text-[#605d5d] hover:border-[#b68235]/60"
+              }`}
             >
               Alles
             </button>
             {tags.map((tag) => (
               <button
+                type="button"
                 key={tag}
                 onClick={() => setActieveTag(actieveTag === tag ? null : tag)}
-                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${actieveTag === tag ? "bg-amber-900 text-white" : "bg-white text-stone-600 hover:bg-amber-100"}`}
+                className={`rounded-sm border px-3.5 py-1.5 text-xs uppercase tracking-[0.12em] transition-colors ${focus} ${
+                  actieveTag === tag
+                    ? "border-[#b68235] text-[#7d5411]"
+                    : "border-[#201f1d]/20 text-[#605d5d] hover:border-[#b68235]/60"
+                }`}
               >
                 {tag}
               </button>
@@ -42,24 +46,30 @@ export default function BlogList({ posts }: { posts: Post[] }) {
         </div>
 
         {gefilterd.length === 0 ? (
-          <p className="text-stone-400 text-center py-12">Geen berichten gevonden.</p>
+          <p className="py-12 text-center text-[#605d5d]">Geen berichten gevonden.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {[...gefilterd].reverse().map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}
-                className="group bg-white rounded-2xl shadow border border-stone-100 p-7 hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col gap-4"
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className={`group flex flex-col gap-3.5 border border-[#201f1d]/15 bg-[#f6f5f4] p-7 transition-colors hover:border-[#b68235] ${focus}`}
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl">{post.icon}</span>
-                  <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${tagKleur[post.tag] ?? "bg-stone-100 text-stone-700"}`}>
-                    {post.tag}
+                <span className="w-fit rounded-sm border border-[#b68235]/60 px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-[#7d5411]">
+                  {post.tag}
+                </span>
+                <h3
+                  className="text-[1.4rem] leading-[1.15]"
+                  style={{ fontFamily: "var(--font-heading), Georgia, serif", fontWeight: 600 }}
+                >
+                  {post.titel}
+                </h3>
+                <p className="flex-1 text-sm leading-[1.65] text-[#4a4744]">{post.samenvatting}</p>
+                <div className="mt-1 flex items-center justify-between">
+                  <span className="text-xs text-[#605d5d]">{post.datum}</span>
+                  <span className="text-sm text-[#7d5411] transition-colors group-hover:text-[#b68235]">
+                    Lees meer
                   </span>
-                </div>
-                <h3 className="text-lg font-black text-stone-900 group-hover:text-amber-700 transition-colors leading-snug">{post.titel}</h3>
-                <p className="text-stone-500 text-sm leading-7 flex-1">{post.samenvatting}</p>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-stone-400">{post.datum}</span>
-                  <span className="text-amber-600 text-sm font-semibold group-hover:text-amber-800 transition-colors">Lees meer →</span>
                 </div>
               </Link>
             ))}

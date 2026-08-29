@@ -1,3 +1,7 @@
+/* merk/globals.css — vervangt de bovenkant van src/app/globals.css.
+   De @keyframes en .animate-* / .reveal regels die je al hebt: laat staan,
+   plak die onder dit blok. */
+
 @import "tailwindcss";
 
 :root {
@@ -19,6 +23,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  /* was Arial — nu de merk-body */
   font-family: var(--font-body), Georgia, "Times New Roman", serif;
   text-wrap: pretty;
 }
@@ -52,37 +57,4 @@ strong, b { font-weight: 600; }
 }
 .plate img {
   filter: sepia(0.2) saturate(0.85) contrast(1.04);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.animate-float    { animation: float 4s ease-in-out infinite; }
-.animate-fade-up  { animation: fadeUp 0.7s ease-out both; }
-.delay-100        { animation-delay: 0.1s; }
-.delay-200        { animation-delay: 0.2s; }
-.delay-300        { animation-delay: 0.3s; }
-.delay-400        { animation-delay: 0.4s; }
-.animate-spin-slow { animation: spin-slow 20s linear infinite; }
-
-.js-ready .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.js-ready .reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }

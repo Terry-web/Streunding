@@ -25,7 +25,7 @@ const reis = [
   { jaar: "Altijd", titel: "De droom", tekst: "Imker worden stond al jaren op mijn lijstje. Bijen fascineren me zo lang als ik me kan herinneren." },
   { jaar: "2025", titel: "Twee kasten", tekst: "Zelf twee bijenkasten getimmerd. Nog geen bijen, maar ze staan klaar in de tuin." },
   { jaar: "2025", titel: "Eerste braggot", tekst: "Gebrouwen met honing en mout — oefenen met honing voordat de bijen er zijn." },
-  { jaar: "2026", titel: "Oma's Appeltjes", tekst: "De derde mede, met appel. Rijpt nu op tafel; over een paar maanden weet ik of het wat is." },
+  { jaar: "2026", titel: "Oma's Appeltjes", tekst: "De derde mede, met appel. Rijpt nu op de bar; over een paar maanden weet ik of het wat is." },
   { jaar: "2027", titel: "Basiscursus", tekst: "De officiële basis imkercursus. En dan, eindelijk, het eerste volk." },
 ];
 
@@ -87,7 +87,7 @@ export default async function Home() {
             <p className="text-lg leading-[1.75] text-[#3a3735] [hyphens:auto] md:columns-2 md:gap-10 md:text-justify">
               Ik ben imker aan het worden. Twee kasten heb ik zelf getimmerd — van de
               eerste plank tot de laatste lat — en er staat inmiddels een derde mede te
-              rijpen op de eetkamertafel. In 2027 start ik de officiële basiscursus, en
+              rijpen op de bar. In 2027 start ik de officiële basiscursus, en
               dan eindelijk het eerste volk. Tot die tijd lees ik, timmer ik, en brouw ik.
               Ik deel hier alles wat ik leer: eerlijk, zonder mooipraterij, inclusief de
               dingen die niet lukken.
@@ -196,7 +196,7 @@ export default async function Home() {
             <div className="relative aspect-[4/5] w-full">
               <Image
                 src="/mede.jpg"
-                alt="Oma's Appeltjes, de derde mede, rijpend in een ballon op tafel"
+                alt="Oma's Appeltjes, de derde mede, rijpend in een ballon op de bar"
                 fill
                 sizes="(min-width: 768px) 40vw, 100vw"
                 className="object-cover [filter:sepia(0.2)_saturate(0.85)_contrast(1.04)]"

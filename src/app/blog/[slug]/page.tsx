@@ -26,74 +26,85 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const volgendePost = index > 0 ? posts[index - 1] : null;
 
   return (
-    <div className="min-h-screen bg-amber-50 text-stone-800">
+    <div className="bg-[#f3f2f2] text-[#201f1d]">
       <ReadingProgress />
 
       {/* Hero */}
-      <section className="relative pt-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-900 via-orange-900 to-stone-900">
-        <div className="absolute inset-0 opacity-10">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="honeycomb" x="0" y="0" width="56" height="100" patternUnits="userSpaceOnUse">
-                <polygon points="28,2 54,17 54,47 28,62 2,47 2,17" fill="none" stroke="#fbbf24" strokeWidth="1.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#honeycomb)"/>
-          </svg>
-        </div>
-        <div className="absolute top-10 right-20 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl animate-float" />
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto py-20">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-amber-300 hover:text-white transition-colors text-sm font-medium mb-6">
+      <section className="pt-16">
+        <div className="mx-auto flex max-w-3xl flex-col items-start gap-5 px-6 py-20">
+          <Link
+            href="/blog"
+            className="text-sm tracking-[0.04em] text-[#605d5d] transition-colors hover:text-[#201f1d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235] rounded-sm"
+          >
             ← Terug naar blog
           </Link>
-          <div className="text-6xl mb-4 animate-float inline-block">{post.icon}</div>
-          <div className="mb-4">
-            <span className="bg-amber-400 text-amber-900 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-              {post.tag}
-            </span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4">{post.titel}</h1>
-          <p className="text-amber-300 text-sm">{post.datum} · Terry Streunding</p>
+          <span className="rounded-sm border border-[#b68235]/60 px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-[#7d5411]">
+            {post.tag}
+          </span>
+          <h1 className="text-4xl leading-[1.08] md:text-[3.25rem]">{post.titel}</h1>
+          <span className="h-px w-full bg-[#201f1d]/15" />
+          <p className="text-sm text-[#605d5d]">{post.datum} · Terry Streunding</p>
         </div>
       </section>
 
       {/* Artikel */}
-      <article className="max-w-2xl mx-auto px-6 py-16">
-        <p className="text-xl text-stone-600 leading-9 font-medium mb-10 pb-10 border-b border-amber-100">
-          {post.samenvatting}
-        </p>
-        <div
-          className="prose prose-stone prose-lg max-w-none prose-p:leading-9 prose-headings:font-black prose-headings:text-stone-900"
-          dangerouslySetInnerHTML={{ __html: post.inhoudHtml ?? "" }}
-        />
+      <article className="border-t border-[#201f1d]/15 bg-[#eeeceb]">
+        <div className="mx-auto max-w-2xl px-6 py-16">
+          <p
+            className="mb-10 border-b border-[#201f1d]/15 pb-10 text-xl italic leading-[1.6] text-[#3a3735]"
+            style={{ fontFamily: "var(--font-heading), Georgia, serif" }}
+          >
+            {post.samenvatting}
+          </p>
+          <div
+            className="prose prose-lg max-w-none prose-p:leading-[1.8] prose-p:text-[#3a3735] prose-headings:font-normal prose-headings:text-[#201f1d] prose-a:text-[#7d5411] prose-strong:text-[#201f1d]"
+            style={{ fontFamily: "var(--font-body), Georgia, serif" }}
+            dangerouslySetInnerHTML={{ __html: post.inhoudHtml ?? "" }}
+          />
 
-        {/* Auteur */}
-        <div className="mt-16 bg-white rounded-2xl p-6 shadow border border-amber-100 flex items-center gap-5">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-2xl shrink-0">
-            👨‍🌾
-          </div>
-          <div>
-            <p className="font-black text-stone-900">Terry Streunding</p>
-            <p className="text-stone-500 text-sm leading-6">Beginnend imker. Deel mijn eerlijke ervaringen vanuit de bijenstal.</p>
+          {/* Auteur */}
+          <div className="mt-16 flex items-center gap-5 border-t border-[#201f1d]/15 pt-8">
+            <div>
+              <p style={{ fontFamily: "var(--font-heading), Georgia, serif", fontWeight: 600 }}>
+                Terry Streunding
+              </p>
+              <p className="text-sm leading-[1.6] text-[#605d5d]">
+                Beginnend imker. Deel mijn eerlijke ervaringen vanuit de bijenstal.
+              </p>
+            </div>
           </div>
         </div>
       </article>
 
       {/* Navigatie tussen posts */}
       {(vorigePost || volgendePost) && (
-        <section className="max-w-2xl mx-auto px-6 pb-16 grid grid-cols-2 gap-4">
+        <section className="grid max-w-2xl grid-cols-2 gap-px mx-auto bg-[#201f1d]/15 px-6 py-px sm:px-0">
           {vorigePost ? (
-            <Link href={`/blog/${vorigePost.slug}`} className="group bg-white rounded-2xl p-5 shadow border border-stone-100 hover:shadow-md hover:-translate-y-1 transition-all">
-              <p className="text-xs text-stone-400 mb-2">← Vorig bericht</p>
-              <p className="font-bold text-stone-900 group-hover:text-amber-700 transition-colors text-sm leading-snug">{vorigePost.titel}</p>
+            <Link
+              href={`/blog/${vorigePost.slug}`}
+              className={`group bg-[#f3f2f2] p-6 transition-colors hover:bg-[#eeeceb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235]`}
+            >
+              <p className="mb-2 text-xs uppercase tracking-[0.14em] text-[#7d5411]">← Vorig bericht</p>
+              <p className="text-sm leading-snug text-[#201f1d] transition-colors group-hover:text-[#7d5411]">
+                {vorigePost.titel}
+              </p>
             </Link>
-          ) : <div />}
+          ) : (
+            <div className="bg-[#f3f2f2]" />
+          )}
           {volgendePost ? (
-            <Link href={`/blog/${volgendePost.slug}`} className="group bg-white rounded-2xl p-5 shadow border border-stone-100 hover:shadow-md hover:-translate-y-1 transition-all text-right">
-              <p className="text-xs text-stone-400 mb-2">Volgend bericht →</p>
-              <p className="font-bold text-stone-900 group-hover:text-amber-700 transition-colors text-sm leading-snug">{volgendePost.titel}</p>
+            <Link
+              href={`/blog/${volgendePost.slug}`}
+              className={`group bg-[#f3f2f2] p-6 text-right transition-colors hover:bg-[#eeeceb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235]`}
+            >
+              <p className="mb-2 text-xs uppercase tracking-[0.14em] text-[#7d5411]">Volgend bericht →</p>
+              <p className="text-sm leading-snug text-[#201f1d] transition-colors group-hover:text-[#7d5411]">
+                {volgendePost.titel}
+              </p>
             </Link>
-          ) : <div />}
+          ) : (
+            <div className="bg-[#f3f2f2]" />
+          )}
         </section>
       )}
 
