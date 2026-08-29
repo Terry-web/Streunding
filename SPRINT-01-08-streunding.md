@@ -365,8 +365,7 @@ tabel met tier-veld is het bestaande `bestuifvolk_aanvragen` uitgebreid:
       formulier voor alle zakelijke aanvragen.
 - [x] Beheeroverzicht toont "zakelijk"-badge + gewas/oppervlakte/
       bloeiperiode i.p.v. het gekoppelde aanbod-item.
-- [ ] **Migratie nog niet gedraaid op de live database** — wordt gedaan
-      bij de volgende deploy, niet los daarvoor.
+- [x] Migratie gedraaid op de live database.
 
 **Verifieerbaar (na migratie):** zakelijke aanvraag versturen, rij
 verschijnt in `bestuifvolk_aanvragen` met `doelgroep = 'zakelijk'` en
