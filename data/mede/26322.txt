@@ -1,5 +1,22 @@
+---
+nr: "26322"
+naam: "Appelmede"
+type: "Appelsap op gist, honing in stappen"
+status: "Rijpt"
+regels:
+  - label: "Gezet"
+    waarde: "11 aug"
+  - label: "In demijohn"
+    waarde: "18 aug"
+  - label: "Honing"
+    waarde: "5 potten"
+  - label: "Basis"
+    waarde: "Appelsap"
+notitie: "Eerst het appelsap aan de gist, daarna de honing er in stappen bij. Zo houd je de gist aan het werk zonder hem te overladen."
+---
+
 11 aug 26
-appelsap aan de gist gezet 
+appelsap aan de gist gezet
 
 
 18 aug 26

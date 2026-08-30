@@ -1,3 +1,20 @@
+---
+nr: "26332"
+naam: "Oma's Appelmede"
+type: "Van oma's eigen appels"
+status: "Vergist"
+regels:
+  - label: "Gezet"
+    waarde: "18 aug"
+  - label: "In demijohn"
+    waarde: "25 aug"
+  - label: "Appels"
+    waarde: "10 L"
+  - label: "Honing"
+    waarde: "5 potten"
+notitie: "Tien liter appels van oma's boom aan het vergisten gezet. De honing gaat er deze week bij. Hiervan hangt het meeste af — het is de enige met een naam die iets betekent."
+---
+
 AppelMede van Oma's appels.
 
 "Oma's Appel mede"

@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getBatches, type BatchStatus } from "@/lib/mede";
 
 export const metadata: Metadata = {
   title: "Honing",
@@ -15,11 +14,48 @@ const heading = { fontFamily: "var(--font-heading), Georgia, serif" } as const;
 
 const KLAAR = "#7d5411", ACTIEF = "#8c2f2f", RIJPT = "#605d5d";
 
-const statusStijl: Record<BatchStatus, { kleur: string; rand: string; dikte: string }> = {
-  Gebotteld: { kleur: KLAAR, rand: "rgba(182,130,53,.6)", dikte: "1px" },
-  Rijpt: { kleur: RIJPT, rand: "rgba(32,31,29,.24)", dikte: "1px" },
-  Vergist: { kleur: ACTIEF, rand: "rgba(140,47,47,.5)", dikte: "2px" },
-};
+const kerncijfers = [
+  { label: "Brouwsels dit jaar", waarde: "3" },
+  { label: "Honing verwerkt", waarde: "±5 kg" },
+  { label: "Eerste eigen oogst", waarde: "2028" },
+  { label: "Eigen honing tot nu", waarde: "0 kg" },
+];
+
+const batches = [
+  {
+    nr: "26244", naam: "Braggot", type: "Bier én mede — met appelsap",
+    status: "Gebotteld", kleur: KLAAR, rand: "rgba(182,130,53,.6)", dikte: "1px",
+    regels: [
+      { label: "Gezet", waarde: "11 jun" },
+      { label: "Eindvolume", waarde: "20 L" },
+      { label: "Bloemenhoning", waarde: "4,5 kg" },
+      { label: "Potentieel", waarde: "12–14 %" },
+    ],
+    notitie: "Stapvoeding vanwege de hoge suikerbelasting. Gesplitst over twee demijohns; de tweede kreeg nog 200 gram honing en een half kaneelstokje — die bubbelt nog rustig door.",
+  },
+  {
+    nr: "26322", naam: "Appelmede", type: "Appelsap op gist, honing in stappen",
+    status: "Rijpt", kleur: RIJPT, rand: "rgba(32,31,29,.24)", dikte: "1px",
+    regels: [
+      { label: "Gezet", waarde: "11 aug" },
+      { label: "In demijohn", waarde: "18 aug" },
+      { label: "Honing", waarde: "5 potten" },
+      { label: "Basis", waarde: "Appelsap" },
+    ],
+    notitie: "Eerst het appelsap aan de gist, daarna de honing er in stappen bij. Zo houd je de gist aan het werk zonder hem te overladen.",
+  },
+  {
+    nr: "26332", naam: "Oma’s Appelmede", type: "Van oma’s eigen appels",
+    status: "Vergist", kleur: ACTIEF, rand: "rgba(140,47,47,.5)", dikte: "2px",
+    regels: [
+      { label: "Gezet", waarde: "18 aug" },
+      { label: "In demijohn", waarde: "25 aug" },
+      { label: "Appels", waarde: "10 L" },
+      { label: "Honing", waarde: "5 potten" },
+    ],
+    notitie: "Tien liter appels van oma’s boom aan het vergisten gezet. De honing gaat er deze week bij. Hiervan hangt het meeste af — het is de enige met een naam die iets betekent.",
+  },
+];
 
 const proces = [
   { nr: "01", titel: "Een sterk volk", tekst: "Zonder bijen geen honing. Het begint bij een gezond volk dat genoeg nectar kan binnenhalen — en dat kost een heel seizoen opbouwen.", maat: "1 volk" },
@@ -48,14 +84,6 @@ function Kicker({ children, tone = "light" }: { children: React.ReactNode; tone?
 }
 
 export default function Honing() {
-  const batches = getBatches();
-  const kerncijfers = [
-    { label: "Brouwsels dit jaar", waarde: String(batches.length) },
-    { label: "Honing verwerkt", waarde: "±5 kg" },
-    { label: "Eerste eigen oogst", waarde: "2028" },
-    { label: "Eigen honing tot nu", waarde: "0 kg" },
-  ];
-
   return (
     <div className="bg-[#f3f2f2] text-[#201f1d]">
 
@@ -112,9 +140,7 @@ export default function Honing() {
             <span className="text-xs uppercase tracking-[0.2em] tabular-nums text-[#7d5411]">Seizoen 2026</span>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {batches.map((b) => {
-              const s = statusStijl[b.status];
-              return (
+            {batches.map((b) => (
               <article key={b.nr} className="flex flex-col gap-4 rounded border border-[#201f1d]/15 bg-[#f6f5f4] p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex flex-col gap-1.5">
@@ -123,9 +149,9 @@ export default function Honing() {
                   </div>
                   <span
                     className="flex shrink-0 items-center gap-2 rounded-sm border px-2.5 py-1 text-[11px] uppercase tracking-[0.14em]"
-                    style={{ color: s.kleur, borderColor: s.rand }}
+                    style={{ color: b.kleur, borderColor: b.rand }}
                   >
-                    <span className="w-2.5" style={{ height: s.dikte, background: s.kleur }} />
+                    <span className="w-2.5" style={{ height: b.dikte, background: b.kleur }} />
                     {b.status}
                   </span>
                 </div>
@@ -140,8 +166,7 @@ export default function Honing() {
                 </dl>
                 <p className="text-sm leading-[1.68] text-[#4a4744]">{b.notitie}</p>
               </article>
-              );
-            })}
+            ))}
           </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-5">
             {[

@@ -173,11 +173,78 @@ e-mailadres staat niet meer als tekst op de pagina.
 
 Regio is **Oldambt, Groningen**.
 
+## 10. Informatief — `src/app/informatief/page.tsx`
+
+```
+merk/informatief/page.tsx  →  src/app/informatief/page.tsx
+```
+
+Alle emoji eruit (👑 🐝 🪲 🥚 🌸 💧 en de vier seizoenskleuren). In plaats van
+zes losse kaartjes staat er nu een specimentabel — rol, aantal, levensduur,
+taak — met de cijfers in tabulaire Cormorant. De broedcyclus was verstopt in
+één kaartje en is nu een eigen 21-daagse reeks. De seizoenen staan op donker
+met maanden en volksgrootte erbij. Inhoudsopgave in de hero linkt naar de
+vier secties (`#volk`, `#oogst`, `#seizoenen`, `#tips`).
+
+## 11. Kalender — `src/app/kalender/`
+
+```
+merk/kalender/page.tsx  →  src/app/kalender/page.tsx
+merk/Kalender.tsx       →  src/components/Kalender.tsx
+```
+
+De maandkiezer is een strip van twaalf over de volle breedte in plaats van een
+grid met pillen; de huidige maand krijgt "Nu". Prioriteit is lijnzwaarte
+geworden in plaats van rood/geel/groene bolletjes — dikke rode streep voor
+"moet nu", gouden hairline voor "let op", grijs voor achtergrond — met een
+legenda. Per maand zijn **dracht** en **kast openen** toegevoegd; onderaan
+staat het hele jaar als tabel, ook klikbaar.
+
+## 12. Dagboek — `src/app/dagboek/page.tsx`
+
+```
+merk/dagboek/page.tsx  →  src/app/dagboek/page.tsx
+```
+
+Beide toestanden zijn opnieuw gedaan. De **lege** toestand is nu een blanco
+inspectieblad met lijnen die nog ingevuld moeten worden, naast de wachtlijst
+(2 kasten, 0 volken, voorjaar 2027) — in plaats van 🪵 met een gestippeld
+kader. De **gevulde** toestand is een ruled tabel in plaats van een tijdlijn
+met 🔍-bollen: datum, volk, koningin, broedbeeld, varroa, notitie. Dezelfde
+Supabase-queries als eerst.
+
+## 13. Kasten — `src/app/kasten/page.tsx`
+
+```
+merk/kasten/page.tsx  →  src/app/kasten/page.tsx
+merk/kast-b.jpg       →  public/kast-b.jpg
+```
+
+Nieuw: een **specificatietabel** op donker (hout 22 mm, raatafstand 8–9 mm,
+10 broedramen, hoeken 45°). Die maten zaten verstopt in de stappentekst,
+terwijl ze het bewijs zijn dat je weet waar je mee bezig bent. `gebouwd`
+leest nu een jaarbereik uit de database (2025–2026 als fallback).
+
+## 14. Honing — `src/app/honing/page.tsx`
+
+```
+merk/honing/page.tsx  →  src/app/honing/page.tsx
+```
+
+Deze pagina was helemaal toekomstmuziek. Ik heb je brouwlogs uit
+`data/mede/` gelezen en er een **brouwregister** van gemaakt: batch 26244
+(braggot, 11 jun, 20 L, 4,5 kg honing), 26322 (appelmede, 11 aug) en 26332
+(Oma's Appelmede, 18 aug), elk met status en een notitie uit je eigen log. De
+kop is nu eerlijk: *nog geen eigen honing, wel al drie brouwsels*.
+
+De batchgegevens staan **hard in het bestand**. Wil je ze uit `data/mede/`
+of uit Supabase laten komen, zeg het dan — dan maak ik er een loader van.
+
 ## Nog open
 
 - **De zwermfoto is geen eigen foto** (mangoboom — niet Nederlands). Sterk
   beeld, maar als je een eigen zwerm hebt, wisselen we hem.
-- **Blog-index en artikelpagina** staan nog in de oude stijl.
+- **Blog-index en artikelpagina** staan nog in de oude stijl — dat is de laatste.
 - `src/app/icon.svg` had de 🐝-emoji; die zit nu in stap 2.
 
 ## Kleuren
