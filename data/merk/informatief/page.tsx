@@ -197,7 +197,7 @@ export default function Informatief() {
       </section>
 
       {/* III — Seizoenen */}
-      <section id="seizoenen" className="scroll-mt-24 border-t border-[#201f1d]/15 bg-[#1a1917] px-6 py-20">
+      <section id="seizoenen" className="scroll-mt-24 border-t border-[#201f1d]/15 band-donker px-6 py-20">
         <div className="mx-auto flex max-w-6xl flex-col gap-11">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="flex flex-col gap-4">

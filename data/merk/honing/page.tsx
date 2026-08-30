@@ -209,7 +209,7 @@ export default function Honing() {
       </section>
 
       {/* Plan */}
-      <section className="border-t border-[#201f1d]/15 bg-[#1a1917] px-6 py-20">
+      <section className="border-t border-[#201f1d]/15 band-donker px-6 py-20">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[300px_minmax(0,1fr)]">
           <div className="flex flex-col gap-4">
             <Kicker tone="dark">Mijn plan</Kicker>

@@ -60,7 +60,7 @@ export default async function Home() {
       <Hero />
 
       {/* Cijfers — drie echte feiten */}
-      <section className="bg-[#1a1917] px-6 py-14">
+      <section className="band-donker px-6 py-14">
         <ul className="mx-auto grid max-w-4xl grid-cols-1 divide-y divide-[#f3f2f2]/15 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {cijfers.map((c) => (
             <li key={c.label} className="flex flex-col items-center gap-2 px-6 py-6 text-center sm:py-0">
@@ -136,7 +136,7 @@ export default async function Home() {
       </section>
 
       {/* Volle plaat — de zwerm */}
-      <section className="relative bg-[#1a1917]">
+      <section className="relative band-donker">
         <div className="relative h-[420px] md:h-[520px]">
           <Image
             src="/zwerm.jpg"
@@ -228,7 +228,7 @@ export default async function Home() {
       </section>
 
       {/* Slot */}
-      <section className="border-t border-[#201f1d]/15 bg-[#1a1917] px-6 py-24">
+      <section className="border-t border-[#201f1d]/15 band-donker px-6 py-24">
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
           <h2 className="text-[2.875rem] leading-[1.08] text-[#f3f2f2]">Volg mijn imkerreis</h2>
           <p className="max-w-[44ch] text-[17px] leading-[1.7] text-[#bab6b6]">

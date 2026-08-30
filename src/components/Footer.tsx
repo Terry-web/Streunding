@@ -15,7 +15,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#141312] px-6 py-10 text-[#8a8683]">
+    <footer className="band-donker-diep px-6 py-10 text-[#8a8683]">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
         <Link href="/" aria-label="Streunding Imkerij" className={`flex items-end gap-2.5 ${focus}`}>
           <Korf size={22} color="#e1ad66" className="mb-0.5 text-[#141312]" />

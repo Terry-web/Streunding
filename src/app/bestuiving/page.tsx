@@ -59,8 +59,8 @@ export default async function Bestuiving() {
           <figure className="m-0 border-[7px] border-[#eae9e9] outline outline-1 outline-[#201f1d]/15">
             <div className="relative aspect-square w-full">
               <Image
-                src="/hero-kast.jpg"
-                alt="Bijen vliegen in en uit bij de vliegopening"
+                src="/boomgaard-vierkant.jpg"
+                alt="Een rij bijenkasten langs een boomgaard in volle bloei"
                 fill
                 priority
                 sizes="(min-width: 768px) 40vw, 100vw"
@@ -106,7 +106,7 @@ export default async function Bestuiving() {
       )}
 
       {/* Slot */}
-      <section className="border-t border-[#201f1d]/15 bg-[#1a1917] px-6 py-20">
+      <section className="border-t border-[#201f1d]/15 band-donker px-6 py-20">
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto]">
           <div className="flex flex-col items-start gap-4">
             <span className="flex items-center gap-3.5">

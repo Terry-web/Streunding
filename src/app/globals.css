@@ -54,6 +54,21 @@ strong, b { font-weight: 600; }
   filter: sepia(0.2) saturate(0.85) contrast(1.04);
 }
 
+/* Houttextuur op de donkere banden — eigen foto van de vloer.
+   Gebruik: <section className="band-donker"> in plaats van bg-[#1a1917] */
+.band-donker {
+  background-color: var(--dark);
+  background-image: url("/hout-donker.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.band-donker-diep {
+  background-color: var(--dark-deep);
+  background-image: url("/hout-donker.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
