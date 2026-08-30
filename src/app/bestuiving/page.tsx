@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68235] rounded-sm";
+const heading = { fontFamily: "var(--font-heading), Georgia, serif" } as const;
 
 export default async function Bestuiving() {
   const supabase = await createClient();
@@ -104,6 +105,39 @@ export default async function Bestuiving() {
           </div>
         </section>
       )}
+
+      {/* Volle plaat — de boomgaard */}
+      <section className="relative border-t border-[#201f1d]/15 bg-[#1a1917]">
+        <div className="relative h-[320px] md:h-[400px]">
+          <Image
+            src="/boomgaard-hero.jpg"
+            alt="Kasten langs een bloeiende boomgaard bij zonsopkomst"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1917]/90 via-[#1a1917]/60 to-[#1a1917]/5" />
+        </div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="mx-auto w-full max-w-6xl px-6">
+            <figure className="m-0 flex max-w-[520px] flex-col gap-4">
+              <span className="flex items-center gap-3.5">
+                <span className="h-px w-9 bg-[#e1ad66]" />
+                <span className="text-xs uppercase tracking-[0.2em] text-[#e1ad66]">
+                  Op het juiste moment
+                </span>
+              </span>
+              <blockquote
+                className="m-0 text-[1.75rem] italic leading-[1.24] tracking-[-0.01em] text-[#f3f2f2] md:text-[2.25rem]"
+                style={heading}
+              >
+                De bloei wacht niet. Daarom staat de planning vast voordat de eerste knop
+                opengaat.
+              </blockquote>
+            </figure>
+          </div>
+        </div>
+      </section>
 
       {/* Slot */}
       <section className="border-t border-[#201f1d]/15 band-donker px-6 py-20">
